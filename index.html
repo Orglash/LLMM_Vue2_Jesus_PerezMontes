@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Ejercicio Vue2 Jesus Perez Montes</title>
+</head>
+<body>
+	<div class="container">
+
+		<h1>People of Draconia</h1>
+		<ul class="list-group">
+			<li v-for="person in people | orderBy 'age'" class="list-group-item">
+			{{ person.name }} has {{ person.age }} years
+			</li>
+		</ul>
+
+		<h2>Old people of Draconia</h2>
+		<ul class="list-group">
+			<li v-for="person in people | old" class="list-group-item">
+			{{ person.name }} has {{ person.age }} years
+			</li>
+		</ul>
+
+		<h2>Custom filter for people of Draconia</h2>
+		<input v-model="searchText">
+		<ul class="list-group">
+			<li v-for="person in people | filterBy searchText in 'name'" class="list-group-item">
+			{{ person.name }} has {{ person.age }} years
+			</li>
+		</ul>
+
+		<h2>Custom age filter for people of Draconia</h2>
+		<input type="Number" v-model="searchAge">
+		<ul class="list-group">
+			<li v-for="person in people | filterAge searchAge " class="list-group-item">
+			{{ person.name }} has {{ person.age }} years
+			</li>
+		</ul>
+	</div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.js"></script>
+<script type="text/javascript">
+	Vue.filter('old', function (people) {
+		return people.filter (function (item) {
+			return item.age > 55;
+		});
+	});
+
+	Vue.filter('filterAge', function (people, searchAge) {
+		return people.filter (function (item) {			
+			return item.age > searchAge;
+		});
+	});
+
+	let component =new Vue ({
+		el: '.container',
+		data: {
+			people: [
+				{
+					name: "Obelix",
+					age: 31
+				},
+				{
+					name: "Asterix",
+					age: 32
+				},
+				{
+					name: "Panoramix",
+					age: 56
+				},
+				{
+					name: "Ideafix",
+					age: 62
+				},
+			], 
+			searchAge : 0
+		}
+	});
+</script>
+</html>
